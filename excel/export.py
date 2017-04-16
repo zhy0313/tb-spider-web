@@ -17,7 +17,7 @@ COLS_EXPAND_NAME = {
     "prefix_name":  [("手淘搜索", "手淘搜索"), ("淘内免费其他", "淘内免费其他"), ("淘宝客", "淘宝客"), ("手淘首页", "手淘首页"),
                      ("我的淘宝", "我的淘宝"), ("手淘旺信", "手淘旺信"), ("购物车", "购物车"), ("直通车", "直通车"), ("钻石展位", "钻石展位"),
                      ("钻石展位", "钻石展位")],
-    "cols": [("uv", "访客数")]
+    "cols": [("uv", "访客数"), ("uvRate", "访客数占比"), ("pv", "浏览量"),("pvRate", "浏览量占比")]
 }
 
 
@@ -34,8 +34,10 @@ def expand_names():
 
 def expand_name_values(industry_item):
     result = []
-    wireless = industry_item['flow']['wireless']
-
+    try:
+        wireless = industry_item['flow']['wireless']
+    except KeyError:
+        return result
     def find_wireless_item(name_):
         for item_ in wireless:
             if item_['name'] == name_:
@@ -76,6 +78,7 @@ def create_industry_excel(industry_items):
         for col_index in range(0, len(COLS_NAME)):
             col = COLS_NAME[col_index]
             write_sheet_row(work_sheet, index + 1, col_index, item[col["name"]])
+        print(item)
         expand_values = expand_name_values(item)
         cols_name_length = len(COLS_NAME)
         for col_index in range(0, len(expand_values)):

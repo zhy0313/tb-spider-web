@@ -29,7 +29,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/test",methods=["post", "get"])
+@app.route("/test", methods=["post", "get"])
 def test():
     return response(jsonify(name="xm"))
 
@@ -55,7 +55,7 @@ def item():
     return response(jsonify(code=0, message="Insert item success"))
 
 
-@app.route("/industry/flow",methods=["POST"])
+@app.route("/industry/flow", methods=["POST"])
 def flow():
     data_param = request.form['data']
     model = json.loads(data_param)
@@ -87,5 +87,5 @@ def list_day(day):
     return response_
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=80)
 
