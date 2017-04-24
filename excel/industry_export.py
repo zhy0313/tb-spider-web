@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*-  coding: utf-8 -*-
+# author: xm
 
 from xlwt import Workbook
 from xlwt import Font
 from xlwt import XFStyle
-from io import StringIO,BytesIO
+from io import StringIO, BytesIO
 
 COLS_NAME = [{"name": "id", "desc": "编号"},
              {"name": "growth_rate", "desc": "交易增长"},

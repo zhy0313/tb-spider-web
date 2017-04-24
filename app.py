@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*-  coding: utf-8 -*-
+# author = xm
+
 
 import json
 import time
@@ -11,8 +13,9 @@ from flask import make_response
 from datetime import datetime as date
 
 from mongo import tb_industry_top as industry_top_dao
-from excel import export
-
+from mongo import tb_topx_dao
+from excel import industry_export
+from excel import topx_export
 
 app = Flask(__name__)
 
@@ -80,12 +83,26 @@ def list_day(day):
     day_items = industry_top_dao.find_day(day)
     if len(day_items) == 0:
         return response(jsonify(code=0, data=day_items))
-    response_ = make_response(export.create_industry_excel(day_items))
-    response_.headers['Content-Disposition'] = "attachment;filename=%s.xls;" % (day)
+    response_ = make_response(industry_export.create_industry_excel(day_items))
+    response_.headers['Content-Disposition'] = "attachment;filename=%s-%s.xls;" % ("Industry", day)
     response_.headers["Content-type"] = 'application/vnd.ms-excel'
     response_.headers['Transfer-Encoding'] = 'chunked'
     return response_
 
+
+@app.route("/topx/<day>")
+def topx_day(day):
+    topx_items = tb_topx_dao.find_day(day)
+    if len(topx_items) == 0:
+        return response(jsonify(code=0, data=topx_items))
+    print(topx_items)
+    response_ = make_response(topx_export.create__excel(topx_items))
+    response_.headers['Content-Disposition'] = "attachment;filename=%s-%s.xls;" % ( "Topx", day)
+    response_.headers["Content-type"] = 'application/vnd.ms-excel'
+    response_.headers['Transfer-Encoding'] = 'chunked'
+    return response_
+
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=80)
+    app.run(debug=True, host="0.0.0.0")
 

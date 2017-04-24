@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*-  coding: utf-8 -*-
+# author: xm
 
 import pymongo
+from mongo.config import DB
 
-client = pymongo.MongoClient("mongodb://192.168.100.101:27017")
-db = client['tb']
-tb_industry_top = db['tb_industry_top']
+
+tb_industry_top = DB['tb_industry_top']
 
 
 def insert(item):
@@ -37,7 +38,6 @@ def find_day(day):
     for i in cursor:
         result.append(i)
     return result
-
 
 
 def find_between(start_time: int, end_time: int):
