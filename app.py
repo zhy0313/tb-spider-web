@@ -126,7 +126,7 @@ def data(day):
     for topx_item in topx_items:
         tmp = dict(find_by_name(topx_item['nick']), **topx_item)
         result.append(tmp)
-
+    result = sorted(result, key=lambda x: x.get('index', 1000000000))
     response_ = make_response(data_export.create__excel(result))
     response_.headers['Content-Disposition'] = "attachment;filename=%s-%s.xls;" % ("Topx", day)
     response_.headers["Content-type"] = 'application/vnd.ms-excel'
