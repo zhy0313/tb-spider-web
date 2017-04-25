@@ -12,7 +12,8 @@ COLS_NAME = [{"name": "id", "desc": "编号"},
              {"name": "price", "desc": "价格"},
              {"name": "ljpj", "desc": "累计评价"},
              {"name": "sales", "desc": "销量"},
-             {"name": "url", "desc": "链接"}]
+             {"name": "url", "desc": "链接"},
+             {"name": "nick", "desc": "店铺"}]
 
 
 def write_sheet_row(work_sheet, row, col, data):
