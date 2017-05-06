@@ -43,14 +43,14 @@ def item():
     model = {
         "type": request.form["type"],
         "id": request.form['id'],
-        "pay_cri": request.form['pay_cri'],
-        "growth_rate": request.form["growth_rate"],
-        "price": request.form['price'],
+        "pay_cri": int(request.form['pay_cri']),
+        "growth_rate": float(request.form["growth_rate"]),
+        "price": float(request.form['price']),
         "shop": request.form['shop'],
         "shop_url": request.form['shop_url'],
-        "sub_orders": request.form['sub_orders'],
+        "sub_orders": int(request.form['sub_orders']),
         "url": request.form['url'],
-        "index": request.form['index'],
+        "index": int(request.form['index']),
         "day": date.now().strftime("%Y-%m-%d"),
         "ts": int(time.time() * 1000)
     }
@@ -134,8 +134,6 @@ def data(day):
     return response_
 
 
-
-
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0",port = 80)
+    app.run(debug=True, host="0.0.0.0", port=80)
 
