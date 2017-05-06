@@ -9,19 +9,19 @@ from io import StringIO, BytesIO
 
 COLS_NAME = [{"name": "nick", "desc": "店铺"},
              {"name": "id", "desc": "编号"},
-             {"name": "price", "desc": "价格"},
-             {"name": "sales", "desc": "销量"},
-             {"name": "ljpj", "desc": "累计评价"},
-             {"name": "yxl_or_jxcg", "desc": "月销量"},
-             {"name": "growth_rate", "desc": "交易增长"},
-             {"name": "sub_orders", "desc": "子订单数"},
+             {"name": "price", "desc": "价格", "default": 0},
+             {"name": "sales", "desc": "销量", "default": 0},
+             {"name": "ljpj", "desc": "累计评价", "default": 0},
+             {"name": "yxl_or_jxcg", "desc": "月销量", "default": 0},
+             {"name": "growth_rate", "desc": "交易增长", "default": 0},
+             {"name": "sub_orders", "desc": "子订单数", "default": 0},
              {"name": "url", "desc": "链接"}]
 
 COLS_EXPAND_NAME = {
     "prefix_name":  [("手淘搜索", "手淘搜索"), ("淘内免费其他", "淘内免费其他"), ("淘宝客", "淘宝客"), ("手淘首页", "手淘首页"),
                      ("我的淘宝", "我的淘宝"), ("手淘旺信", "手淘旺信"), ("购物车", "购物车"), ("直通车", "直通车"), ("钻石展位", "钻石展位"),
                      ("钻石展位", "钻石展位")],
-    "cols": [("uv", "访客数"), ("uvRate", "访客数占比"), ("pv", "浏览量"),("pvRate", "浏览量占比")]
+    "cols": [("uv", "访客数", 0), ("uvRate", "访客数占比", 0), ("pv", "浏览量", 0), ("pvRate", "浏览量占比", 0)]
 }
 
 
@@ -53,7 +53,7 @@ def expand_name_values(industry_item):
         item = find_wireless_item(name)
         for field in COLS_EXPAND_NAME['cols']:
             if not item:
-                result.append("")
+                result.append(0)
             else:
                 result.append(item[field[0]])
     return result
@@ -82,12 +82,17 @@ def create__excel(data_items):
         print(item)
         for col_index in range(0, len(COLS_NAME)):
             col = COLS_NAME[col_index]
-            write_sheet_row(work_sheet, index + 1, col_index, item.get(col["name"], ""))
+            default_value = item.get("default", "")
+            write_sheet_row(work_sheet, index + 1, col_index, item.get(col["name"], default_value))
         print(item)
         expand_values = expand_name_values(item)
         cols_name_length = len(COLS_NAME)
         for col_index in range(0, len(expand_values)):
             write_sheet_row(work_sheet, index + 1, cols_name_length + col_index, expand_values[col_index])
+
+        for col_index in range(cols_name_length +len(expand_values), len(cols_name)):
+            write_sheet_row(work_sheet, index + 1, col_index, 0)
+            # pass
         index = index + 1
 
     byte_io = BytesIO()
