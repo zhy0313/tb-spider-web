@@ -90,7 +90,7 @@ def create__excel(data_items):
         for col_index in range(0, len(expand_values)):
             write_sheet_row(work_sheet, index + 1, cols_name_length + col_index, expand_values[col_index])
 
-        for col_index in range(cols_name_length +len(expand_values), len(cols_name)):
+        for col_index in range(cols_name_length + len(expand_values), len(cols_name)):
             write_sheet_row(work_sheet, index + 1, col_index, 0)
             # pass
         index = index + 1
